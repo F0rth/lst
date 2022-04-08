@@ -58,11 +58,14 @@ func loop() {
 	timestamp = t0.Format("15:04:05")
 	g.SingleWindow().RegisterKeyboardShortcuts(
 		g.WindowShortcut{Key: g.KeyE, Modifier: g.ModControl, Callback: func() { edit = !edit }},
+		g.WindowShortcut{Key: g.KeyS, Modifier: g.ModControl, Callback: saveTofile},
+		g.WindowShortcut{Key: g.KeyF1, Modifier: g.ModControl, Callback: minusOne},
+		g.WindowShortcut{Key: g.KeyF2, Modifier: g.ModControl, Callback: plusOne},
 	).Layout(
 		g.Row(
 			g.Label(timestamp),
-			g.Button("+1").OnClick(plusOne),
-			g.Button("-1").OnClick(minusOne),
+			g.Button("+1 (F1)").OnClick(plusOne),
+			g.Button("-1 (F2)").OnClick(minusOne),
 			g.Button("start").OnClick(startTicker),
 			g.Button("stop").OnClick(stopTicker),
 			g.Button("reset").OnClick(resetTicker),
@@ -78,7 +81,7 @@ func loop() {
 		//g.Button("New").OnClick(newLine),
 		g.InputTextMultiline(&text).Size(g.Auto, g.Auto-30),
 		g.Row(
-			g.Button("Save").OnClick(saveTofile),
+			g.Button("Save (ctrl-s)").OnClick(saveTofile),
 			g.InputText(&filename),
 		),
 	)
