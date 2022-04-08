@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"time"
 
@@ -13,7 +12,7 @@ var (
 	content, text, timestamp string
 	filename                 = "timecode.txt"
 	ticker                   *time.Ticker
-	auto                     bool
+	edit                     bool = true
 )
 
 func plusOne() {
@@ -57,7 +56,9 @@ func tickerUpdate() {
 
 func loop() {
 	timestamp = t0.Format("15:04:05")
-	g.SingleWindow().Layout(
+	g.SingleWindow().RegisterKeyboardShortcuts(
+		g.WindowShortcut{Key: g.KeyE, Modifier: g.ModControl, Callback: func() { edit = !edit }},
+	).Layout(
 		g.Row(
 			g.Label(timestamp),
 			g.Button("+1").OnClick(plusOne),
@@ -65,23 +66,22 @@ func loop() {
 			g.Button("start").OnClick(startTicker),
 			g.Button("stop").OnClick(stopTicker),
 			g.Button("reset").OnClick(resetTicker),
-			g.Checkbox("auto", &auto),
+			g.Checkbox("edit (crtl-e)", &edit),
 		),
-		/*g.Custom(func() {
-			if auto {
+		g.Custom(func() {
+			if !edit {
 				g.SetKeyboardFocusHere()
 			}
-		}),*/
+		}),
 		g.InputText(&content).Size(g.Auto),
 		g.Event().OnKeyPressed(g.KeyEnter, newLine),
-		g.Button("New").OnClick(newLine),
+		//g.Button("New").OnClick(newLine),
 		g.InputTextMultiline(&text).Size(g.Auto, g.Auto-30),
 		g.Row(
 			g.Button("Save").OnClick(saveTofile),
 			g.InputText(&filename),
 		),
 	)
-	fmt.Println(auto)
 }
 
 func main() {
