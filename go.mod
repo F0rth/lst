@@ -1,4 +1,4 @@
-module bitbucket.org/F0rth/subs
+module github.com/F0rth/lst
 
 go 1.18
 

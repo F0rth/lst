@@ -12,7 +12,7 @@ var (
 	content, text, timestamp string
 	filename                 = "timecode.txt"
 	ticker                   *time.Ticker
-	edit                     bool = true
+	edit                     bool = false
 )
 
 func plusOne() {
@@ -69,10 +69,10 @@ func loop() {
 			g.Button("start").OnClick(startTicker),
 			g.Button("stop").OnClick(stopTicker),
 			g.Button("reset").OnClick(resetTicker),
-			g.Checkbox("edit (crtl-e)", &edit),
+			g.Checkbox("keyboard only (crtl-e)", &edit),
 		),
 		g.Custom(func() {
-			if !edit {
+			if edit {
 				g.SetKeyboardFocusHere()
 			}
 		}),
