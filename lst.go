@@ -13,6 +13,7 @@ var (
 	filename                 = "timecode.txt"
 	ticker                   *time.Ticker
 	edit                     bool = false
+	autosavebool             bool = true
 )
 
 func plusOne() {
@@ -54,6 +55,15 @@ func tickerUpdate() {
 	}
 }
 
+func autoSave() {
+	for {
+		if autosavebool {
+			go saveTofile()
+		}
+		time.Sleep(30 * time.Second)
+	}
+}
+
 func loop() {
 	timestamp = t0.Format("15:04:05")
 	g.SingleWindow().RegisterKeyboardShortcuts(
@@ -83,6 +93,7 @@ func loop() {
 		g.Row(
 			g.Button("Save (ctrl-s)").OnClick(saveTofile),
 			g.InputText(&filename),
+			g.Checkbox("autosave", &autosavebool),
 		),
 	)
 }
@@ -90,6 +101,7 @@ func loop() {
 func main() {
 	ticker = time.NewTicker(time.Second)
 	go tickerUpdate()
+	go autoSave()
 	wnd := g.NewMasterWindow("Live Shill Timecode", 500, 500, g.MasterWindowFlagsFloating)
 	wnd.Run(loop)
 }
