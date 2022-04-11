@@ -86,9 +86,11 @@ func loop() {
 				g.SetKeyboardFocusHere()
 			}
 		}),
-		g.InputText(&content).Size(g.Auto),
-		g.Event().OnKeyPressed(g.KeyEnter, newLine),
-		//g.Button("New").OnClick(newLine),
+		g.Row(
+			g.InputText(&content).Size(g.Auto-150),
+			g.Event().OnKeyPressed(g.KeyEnter, newLine),
+			g.Button("New comment").OnClick(newLine),
+		),
 		g.InputTextMultiline(&text).Size(g.Auto, g.Auto-30),
 		g.Row(
 			g.Button("Save (ctrl-s)").OnClick(saveTofile),
