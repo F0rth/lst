@@ -42,7 +42,7 @@ func newLine() {
 }
 
 func saveTofile() {
-	f, _ := os.Create("timecode.txt")
+	f, _ := os.Create(filename)
 	defer f.Close()
 	f.WriteString(text)
 }
